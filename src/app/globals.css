@@ -1,26 +1,42 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.main-content-wrapper {
+  max-width: 1200px; /* Same max-width as your .header .container */
+  margin: 0 auto;    /* Centers the content horizontally */
+  padding: 0 1.5rem; /* Optional: Add horizontal padding to match the header's inner padding */
+  /* You might want to add vertical padding as well, e.g., padding-top: 2rem; */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Container for the spinner, ensures it covers the whole screen */
+.spinner {
+  position: fixed; /* Fixed position relative to the viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it's on top of all other content */
+  font-family: 'Inter', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Styling for the loader animation itself */
+.loader {
+  width: 50px; /* Size of the spinner */
+  height: 50px;
+  border: 5px solid #e0e0e0; /* Light gray border for the track */
+  border-top-color: #4f46e5; /* Fashion-forward accent color (indigo) for the spinning part */
+  border-radius: 50%; /* Make it circular */
+  animation: spin 1s linear infinite; /* Apply the spinning animation */
+}
+
+/* The spinning animation keyframes */
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}

@@ -1,0 +1,414 @@
+/* Styling for the header container */
+.header {
+    background-color: #ffffff; /* White background for the header */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 1rem 0; /* Vertical padding, no horizontal as container handles it */
+    font-family: 'Inter', sans-serif; /* Consistent font */
+    color: red;
+}
+
+/* Styling for the inner container to center content and add padding */
+.header .container {
+    max-width: 1200px; /* Max width for content */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 0 1.5rem; /* Horizontal padding */
+    display: flex; /* Use flexbox for logo and nav links */
+    justify-content: space-between; /* Space between logo and nav links */
+    align-items: center; /* Vertically align items */
+}
+
+/* Styling for the logo */
+.header .logo {
+    font-size: 1.8rem; /* Larger font size for the logo */
+    font-weight: bold; /* Bold text */
+    color: #4f46e5; /* Distinct color for the logo (e.g., Indigo) */
+}
+
+.header .logo a {
+    text-decoration: none; /* Remove underline from link */
+    color: inherit; /* Inherit color from parent */
+    transition: color 0.2s ease; /* Smooth color transition */
+}
+
+.header .logo a:hover {
+    color: #3730a3; /* Darker color on hover */
+}
+
+/* Styling for the navigation links */
+.header .nav-links {
+    display: flex; /* Use flexbox for individual links */
+    gap: 1.5rem; /* Space between links */
+}
+
+.header .nav-links a {
+    text-decoration: none; /* Remove underline */
+    color: #6b7280; /* Muted gray color for links */
+    font-size: 1rem; /* Standard font size */
+    font-weight: 500; /* Medium font weight */
+    transition: color 0.2s ease; /* Smooth color transition */
+}
+
+.header .nav-links a:hover {
+    color: #4f46e5; /* Indigo color on hover */
+}
+/* Styling for the cart icon container */
+.cart-icon {
+    position: relative; /* Allows positioning for the count badge */
+    color: #6b7280; /* Muted gray color to match other links */
+    display: flex; /* Ensures icon and badge are aligned */
+    align-items: center;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.cart-icon:hover {
+    color: #4f46e5; /* Indigo color on hover */
+}
+
+/* Styling for the cart count badge */
+.cart-icon-count {
+    position: absolute;
+    top: -8px; /* Position above the icon */
+    right: -12px; /* Adjusted to be further to the right */
+    background-color: #ef4444; /* A bright red color for attention */
+    color: #ffffff;
+    font-size: 0.65rem; /* Made font size smaller */
+    font-weight: bold;
+    border-radius: 50%; /* Make it a circle */
+    padding: 1px 5px; /* Adjusted padding to make it smaller */
+    min-width: 18px; /* Ensured it stays a circle even with a single digit */
+    text-align: center;
+    line-height: 1; /* Aligns the number vertically */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Small shadow for depth */
+}
+
+/* Hide the count when it is zero */
+.cart-icon-count:empty {
+    display: none;
+}
+
+/* Ensure the SVG icon also inherits the color */
+.cart-icon svg {
+    color: inherit;
+}
+
+
+/* Styling for the main cart menu container (backdrop and positioning) */
+.cart-memu-container {
+    position: fixed; /* Fixed position relative to the viewport */
+    top: 0;
+    right: 0; /* Starts hidden off-screen to the right */
+    width: 100vw; /* Full viewport width for the backdrop */
+    height: 100vh; /* Full viewport height for the backdrop */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black backdrop */
+    z-index: 9999; /* Ensure it's on top of most content */
+    display: flex;
+    justify-content: flex-end; /* Push the actual cart menu to the right */
+    transition: background-color 0.3s ease; /* Smooth fade-in for backdrop */
+    font-family: 'Inter', sans-serif;
+}
+
+/* Styling for the actual cart menu (the slide-over panel) */
+.cart-memu {
+    background-color: #ffffff; /* White background */
+    width: 100%;
+    max-width: 400px; /* Maximum width for the cart drawer */
+    height: 100%;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    display: flex;
+    flex-direction: column; /* Stack header, items, and footer vertically */
+    transform: translateX(0); /* Starts visible within the container */
+    transition: transform 0.3s ease-in-out; /* Smooth slide-in/out for the menu itself */
+}
+
+/* The parent component would likely control an 'open' class on the .cart-memu-container
+   to manage the slide-in/out and backdrop. Example: */
+   .cart-memu-container.closed {
+       background-color: rgba(0,0,0,0);
+       pointer-events: none;
+   }
+   .cart-memu-container.closed .cart-memu {
+       transform: translateX(100%);
+   }
+
+
+/* Styling for the cart header */
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem; /* Adjusted padding */
+    border-bottom: 1px solid #eee;
+}
+
+/* "Clear cart" button moved to header */
+.item-clear {
+    background: none;
+    border: none;
+    color: #888; /* Gray color for subtle look */
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none; /* Ensure no underline */
+    transition: text-decoration 0.2s ease, color 0.2s ease;
+}
+
+.item-clear:hover {
+    text-decoration: underline;
+    color: #333; /* Darker gray on hover */
+}
+
+/* Styling for "Your Cart" heading in the header */
+.cart-header h2 { /* Targets h2 inside cart-header */
+    font-size: 1.1rem; /* Smaller font size for "Your Cart" */
+    font-weight: 600; /* Medium bold */
+    color: #333;
+    margin: 0;
+}
+
+/* Styling for the close (X) button in the header */
+.cart-header-close-btn { /* Specific class for the X button */
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.2s ease;
+    padding: 0; /* Remove default padding */
+    display: flex; /* For icon alignment */
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-header-close-btn:hover {
+    color: #333;
+}
+
+/* Styling for the cart items container */
+.cart-items {
+    flex-grow: 1; /* Allows this section to take up available space */
+    padding: 1rem 1.5rem; /* Adjusted padding */
+    overflow-y: auto; /* Enable scrolling if cart items overflow */
+    list-style: none; /* Remove default list styling for ul.cart-items */
+    margin: 0;
+}
+
+.empty-cart {
+    text-align: center;
+    color: #888;
+    margin-top: 2rem;
+}
+
+/* Styling for the list of cart items */
+.cart-items-list { /* Added class to distinguish from parent div */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Styling for individual cart items */
+.cart-item {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f5f5f5; /* Subtle separator between items */
+    position: relative; /* For positioning the remove icon */
+}
+
+.cart-item:last-child {
+    border-bottom: none; /* No border for the last item */
+}
+
+/* Styling for the product image placeholder box */
+.cart-item-image-placeholder {
+    width: 60px; /* Smaller image size */
+    height: 60px;
+    background-color: #f0f0f0; /* Light gray background */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex-shrink: 0; /* Prevent from shrinking */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+/* Style for the SVG icon inside the image placeholder */
+.cart-item-image-placeholder svg {
+    color: #bbb; /* Muted color for the placeholder icon */
+}
+
+/* New wrapper for name, size, quantity controls, and total price */
+.cart-item-details-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: left; /* Align text to the left */
+}
+
+.cart-item-name {
+    font-size: 0.95rem; /* Adjusted font size */
+    font-weight: 500;
+    color: #333;
+    margin: 0 0 0.25rem 0;
+    line-height: 1.2;
+}
+
+.cart-item-size { /* New style for size text */
+    font-size: 0.8rem;
+    color: #888;
+    margin: 0 0 0.75rem 0; /* Increased margin to separate from controls */
+}
+
+/* New: Quantity controls and total price wrapper */
+.cart-item-controls-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Take full width of its parent */
+    /* margin-top: 0.5rem; Removed as gap in wrapper handles it */
+}
+
+/* Quantity controls wrapper */
+.cart-item-quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0; /* No gap between buttons and input directly */
+    border: 1px solid #ddd; /* Border around the quantity control group */
+    border-radius: 4px;
+    padding: 0; /* Small padding inside the border */
+    overflow: hidden; /* Ensures borders look clean around inner elements */
+}
+
+/* Quantity buttons (plus/minus) */
+.quantity-btn {
+    background-color: transparent; /* No background */
+    border: none; /* No border */
+    border-radius: 0; /* Rectangular for the group */
+    width: 28px; /* Button width */
+    height: 28px; /* Button height */
+    font-size: 1.2rem; /* Larger font for +/- symbols */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+    color: #555; /* Darker color for +/- */
+}
+
+.quantity-btn:hover:not(:disabled) {
+    background-color: #f0f0f0;
+}
+
+.quantity-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+    color: #bbb;
+}
+
+/* Input for quantity */
+.cart-item-quantity-input { /* New class for the number input itself */
+    width: 35px; /* Fixed width for the input field */
+    height: 28px;
+    text-align: center;
+    border: none; /* No border on the input itself */
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+    background-color: transparent;
+    padding: 0; /* Remove default padding */
+}
+
+/* Hide arrows for Chrome, Safari, Edge, Opera */
+.cart-item-quantity-input::-webkit-outer-spin-button,
+.cart-item-quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.cart-item-total-price { /* New class for total price of one item */
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap; /* Prevent total price from wrapping */
+}
+
+/* Remove icon button (the X next to the item) */
+.remove-item-icon-btn { /* New class for the remove X icon button */
+    background: none;
+    border: none;
+    color: #bbb; /* Gray color for the icon */
+    cursor: pointer;
+    position: absolute; /* Position absolutely within cart-item */
+    top: 1rem; /* Align with item top */
+    right: 0; /* Align to the right */
+    padding: 0;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; /* Size for the icon area */
+    height: 20px;
+}
+
+.remove-item-icon-btn:hover {
+    color: #ef4444; /* Red color on hover */
+}
+
+
+/* Styling for the footer buttons/links container */
+.cart-footer-buttons { /* Specific class for footer buttons */
+    padding: 1.5rem; /* Adjusted padding */
+    border-top: 1px solid #eee;
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 0.75rem; /* Space between buttons/links */
+}
+
+/* Styling for the "Continue Shopping" button */
+.cart-close-button {
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 1px solid #ccc; /* Border for Continue Shopping */
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #ffffff; /* White background */
+    color: #333; /* Dark text */
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+}
+
+.cart-close-button:hover {
+    background-color: #f0f0f0;
+    border-color: #bbb;
+}
+
+/* Styling for the "Proceed to Checkout" button */
+.cart-check-out {
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 1px solid #222; /* Dark border */
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #222; /* Dark background */
+    color: #ffffff;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+}
+
+.cart-check-out:hover {
+    background-color: #000;
+    border-color: #000;
+}

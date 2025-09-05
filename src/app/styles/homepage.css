@@ -1,0 +1,47 @@
+/* Overall page container, ensures full-screen hero section */
+.homepage-container {
+   height: 100vh;
+   background-image: url("https://images.unsplash.com/photo-1603189343302-e603f7add05a?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+   background-size: cover;       /* scale image to cover element */
+   background-position: center;  /* center the image */
+   background-repeat: no-repeat; /* prevent tiling */
+}
+
+.homepage-container button {
+    position: absolute; /* Position relative to the homepage-container */
+    bottom: 50px; /* Adjust as needed for vertical position from the bottom */
+    left: 50%; /* Start at the horizontal center */
+    transform: translateX(-50%); /* Shift left by 50% of its own width to truly center */
+    z-index: 3; /* Ensure it's on top of everything else */
+    background-color:  #ffffff;; /* Transparent background */
+    border: 2px solid #ffffff; /* White border */
+    padding: 1rem 2rem; /* Padding to make the button a good size */
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff; /* White text */
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+}
+
+.homepage-container button:hover {
+    background-color: transparent; /* Solid white background on hover */
+    color: #333; /* Dark text on hover */
+}
+/* Container for the entire product grid */
+.product-grid-container {
+    max-width: 1200px; /* Adjust as needed, but this matches the common header width */
+    margin: 2rem auto; /* Add vertical margin and center horizontally */
+    padding: 0 1.5rem; /* Add horizontal padding for smaller screens */
+}
+
+/* Styling for the product grid itself */
+.product-grid {
+    display: grid;
+    /* This creates a responsive grid that automatically fits as many columns
+       as possible, with each column being at least 280px wide. */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem; /* Space between the grid items (cards) */
+    align-items: start; /* Align items to the top of their grid cell */
+}
