@@ -1,0 +1,37 @@
+.receipt-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+  
+  .download-btn,
+  .print-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .download-btn {
+    background: #111827;
+    color: #fff;
+  }
+  
+  .download-btn:hover {
+    background: #1f2937;
+  }
+  
+  .print-btn {
+    background: #f3f4f6;
+    color: #111827;
+  }
+  
+  .print-btn:hover {
+    background: #e5e7eb;
+  }
+  

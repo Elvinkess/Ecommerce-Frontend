@@ -4,7 +4,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
   // params.id is available here synchronously
   const id = params.id;
 
-  const res = await fetch(`http://localhost:8000/product/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/product/${id}`, {
     cache: "no-store", // avoid caching during dev
   });
 

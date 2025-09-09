@@ -36,9 +36,13 @@
 .product-image-card {
     display: block;
     width: 100%;
-    height: auto;
-    transition: transform 0.3s ease; /* Smooth zoom effect on hover */
-}
+    aspect-ratio: 3 / 4; /* Keeps all product images uniform (3:4 ratio is common in fashion ecommerce) */
+    object-fit: cover;   /* Ensures images fill the frame without distortion */
+    border-radius: 12px; /* Soft rounded corners */
+    background-color: #f8f8f8; /* Light background in case of transparent images */
+    transition: transform 0.4s ease, box-shadow 0.3s ease;
+  }
+  
 
 /* Zoom effect on image hover */
 .product-image-container:hover .product-image {
@@ -193,19 +197,27 @@
     align-items: start; /* Align items to the top of their grid cell */
 }
 
-cart-btn {
-    background-color: transparent;
-    border: 2px solid #ffffff; /* White border */
-    color: #ffffff;
-    border-radius: 8px; /* Make it a rounded square */
-    width: 120px; /* Fixed width */
-    height: 45px; /* Fixed height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-    font-size: 1rem; /* Added font size for text */
-    font-weight: 600;
-    text-transform: uppercase;
-}
+
+.cart-notification {
+    position: fixed; /* stays on screen */
+    top: 20px;
+    right: 20px;
+    background: #2ecc71;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 10000; /* ensure it's above all content */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: fadeInOut 3s ease forwards;
+  }
+  
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-20px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
+  }
+  
+  

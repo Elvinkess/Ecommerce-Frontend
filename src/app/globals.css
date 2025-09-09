@@ -40,3 +40,9 @@
   }
 }
 
+/* globals.css */
+.swiper,
+.swiper-slide {
+  width: 100%;
+  height: 100vh; /* fill the viewport */
+}

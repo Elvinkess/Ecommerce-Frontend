@@ -16,11 +16,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:8000/user/decode", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/decode`, {
           credentials: "include", // send cookie
         });
-        if (res.ok) {
+        if (res.ok ) {
           const data = await res.json();
+          console.log(data,"-----user-")
           setUser(data);
         }
       } catch (err) {

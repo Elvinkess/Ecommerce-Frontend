@@ -1,0 +1,51 @@
+.receipt-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    background: #f9fafb;
+    padding: 20px;
+  }
+  
+  .receipt-card {
+    background: #fff;
+    max-width: 500px;
+    width: 100%;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    font-family: "Inter", sans-serif;
+  }
+  
+  .receipt-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #111827;
+  }
+  
+  .receipt-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .receipt-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 0.95rem;
+    color: #374151;
+  }
+  
+  .receipt-list li:last-child {
+    border-bottom: none;
+  }
+  
+  .receipt-list span {
+    font-weight: 600;
+    color: #111827;
+  }
+  

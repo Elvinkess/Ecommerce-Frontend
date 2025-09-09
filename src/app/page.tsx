@@ -10,11 +10,13 @@ export default function Home() {
   const { user } = useAuth();
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showNotif, setShowNotif] = useState(false);
+
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:8000/product/");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/product/`);
         const data = await res.json();
         setProducts(data);
       } catch (err) {
@@ -41,7 +43,7 @@ export default function Home() {
       </div>
 
       <div>
-        {user ? <h1>Welcome {user.username}</h1> : <p>Please log in</p>}
+        {user && user.username ? <h1>Welcome {user.username}</h1> : <p>Please log in</p>}
       </div>
 
       <div className="product-grid-container">

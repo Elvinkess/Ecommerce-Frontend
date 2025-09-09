@@ -39,7 +39,7 @@ const LoginPage = () => {
         setError(null);
 
         try {
-            const response = await fetch("http://localhost:8000/user/signin", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/signin`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

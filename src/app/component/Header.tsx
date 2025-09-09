@@ -4,11 +4,15 @@ import { useState } from "react";
 import Link from "next/link";
 import { useCart } from "../context/CartContext";
 import{useAuth} from "../context/AuthContext"
-import { ShoppingCart, Info, User, LayoutGrid, Package, X } from "lucide-react";
+import { ShoppingCart, Info, User, LayoutGrid, Package,ClipboardList, X } from "lucide-react";
+import OrderListDrawer from "./Order";
+import Image from "next/image";
 
 export default function Header() {
   const { cart, removeFromCart, clearCart, updateQuantity } = useCart();
   const [open, setOpen] = useState(false);
+  const [openOrders, setOpenOrders] = useState(false)
+
   const{user}= useAuth()
 
   // Helper for safe quantity updates
@@ -37,6 +41,17 @@ export default function Header() {
           <Link href="/about" title="About">
             <Info size={22} />
           </Link>
+
+          {user && user.id && user.username && (
+            <nav className="space-x-4">
+              <button onClick={() => setOpenOrders(true)} className="relative">
+                <ClipboardList size={24} />
+              </button>
+            </nav>
+      )}
+
+          {/* Orders Drawer */}
+          <OrderListDrawer open={openOrders} onClose={() => setOpenOrders(false)} />
 
           {/* Cart Icon with badge (toggles drawer) */}
           <button
@@ -80,17 +95,17 @@ export default function Header() {
                 <ul className="cart-items-list">
                   {cart.map((item) => (
                     <li key={item.id} className="cart-item">
-                      {/* Product Image Placeholder */}
-                      <div className="cart-item-image-placeholder">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                          viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                          className="lucide lucide-square-stack">
-                          <rect width="18" height="18" x="3" y="3" rx="2"/>
-                          <path d="M7 7v10h10"/>
-                          <path d="M11 11v6h6"/>
-                        </svg>
+                    
+                      <div className="cart-item-image">
+                        <Image
+                          src={item.image_url}
+                          alt={item.name}
+                          width={60}
+                          height={60}
+                          className="cart-item-img"
+                        />
                       </div>
+
 
                       {/* Item Details */}
                       <div className="cart-item-details-wrapper">

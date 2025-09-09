@@ -2,10 +2,12 @@
 import "../styles/productDetails.css";
 import { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
+import Notification from "../component/NotifyCart"
 
 export default function ProductDetail({ product }: { product: any }) {
   const { cart, addToCart, updateQuantity } = useCart();
   const [quantity, setQuantity] = useState<number>(1);
+  const [showNotif, setShowNotif] = useState(false);
 
   // Check if product is already in cart
   const inCart = cart.find((c) => c.id === product.data.id);
@@ -45,6 +47,7 @@ export default function ProductDetail({ product }: { product: any }) {
         quantity
       );
     }
+    setShowNotif(true);
   };
 
   return (
@@ -63,7 +66,7 @@ export default function ProductDetail({ product }: { product: any }) {
 
         <p>{product.data.description}</p>
         <p>
-        Price: <strong>${product.data.price}</strong>
+        Price: <strong>₦ {product.data.price}</strong>
         </p>
         <p>
         Available:{" "}
@@ -87,6 +90,12 @@ export default function ProductDetail({ product }: { product: any }) {
         {inCart ? "Update Cart" : "Add to Cart"}
         </button>
       </div>
+      {showNotif && (
+        <Notification
+          message={`${product.data.name} added to cart ✅`}
+          onClose={() => setShowNotif(false)}
+        />
+      )}
       
     </div>
   );

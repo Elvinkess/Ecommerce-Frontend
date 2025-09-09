@@ -33,25 +33,26 @@ export default function CartProvider({ children }: { children: ReactNode }) {
       if (user) {
         try {
           const id = Number(user.id)
-          const res = await fetch(`http://localhost:8000/cart/getcart/${id}`, {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/cart/getcart/${id}`, {
             credentials: "include",
           });
           if (!res.ok) throw new Error("Failed to fetch cart");
           const backendCart = await res.json();
-          console.log(backendCart,"-------Bk---")
   
           // Normalize backend response into CartItem[]
           const cartItems: CartItem[] = backendCart.cart_items?.length
-            ? backendCart.cart_items.map((ci: any) => ({
-                id: ci.product_id,
-                name:ci.product.name,
-                price: ci.product.price,
-                quantity: ci.quantity,
-                image_url:ci.product.image_url,
-                maxQuantity: ci.product.inventory.quantity_available || 0
-              }))
-            : []; // empty cart if no items
-              console.log(cartItems,"---------")
+            ? backendCart.cart_items
+                .filter((ci: any) => ci.product) // ✅ only process valid products
+                .map((ci: any) => ({
+                  id: ci.product_id,
+                  name: ci.product.name,
+                  price: ci.product.price,
+                  quantity: ci.quantity,
+                  image_url: ci.product.image_url,
+                  maxQuantity: ci.product.inventory?.quantity_available || 0,
+                }))
+            : [];
+
 
           // --- merge with guest cart if it exists ---
           const guestCartRaw = localStorage.getItem("guest_cart");
@@ -71,7 +72,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
 
             //  Only sync guest cart items to backend, not the full merged array
             for (const item of guestCart) {
-              await fetch("http://localhost:8000/cart/additem", {
+              await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/cart/additem`, {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
@@ -130,7 +131,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
       const id = Number(user.id)
 
       // also update backend
-      fetch("http://localhost:8000/cart/additem", {
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/cart/additem`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -156,7 +157,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     if (!user) return;
     const id = Number(user.id);
   
-    fetch(`http://localhost:8000/cart/${id}/items/${productId}`, {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/cart/${id}/items/${productId}`, {
       method: "DELETE",
       credentials: "include",
     })
@@ -193,7 +194,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     try {
       if (!user) return; // user must be logged in
       const id = Number(user.id);
-      const res =fetch(`http://localhost:8000/cart/${id}/items/${productId}`,{
+      const res =fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/cart/${id}/items/${productId}`,{
         method:"PATCH",
         credentials:"include",
         headers: {
@@ -215,7 +216,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
   const clearCart = () => {
     setCart([]);
     if (user) {
-      fetch(`http://localhost:8000/cart/remove/${Number(user.id)}`, {
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/cart/remove/${Number(user.id)}`, {
         method: "DELETE",
         credentials: "include",
       }).catch((err) => console.error("Failed to clear cart:", err));
