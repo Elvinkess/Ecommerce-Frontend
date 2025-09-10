@@ -35,10 +35,11 @@
 
 /* General styling for headings */
 h2 {
-    color: #333;
+    font-family: 'Inter', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem; 
+    color: #111827; 
     margin-bottom: 1rem;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 0.5rem;
 }
 
 /* Styling for the address form and order details */
@@ -182,3 +183,44 @@ h2 {
     }
   }
   
+  /* Payment button */
+.btn-payment {
+    display: inline-block;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    background-color: #10b981; 
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-payment:hover {
+    background-color: #059669;
+    transform: translateY(-1px); 
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn-payment:disabled {
+    background-color: #d1d5db;
+    color: #9ca3af;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Optional: active/pressed effect */
+.btn-payment:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.order-h2{
+    text-align: center;
+}
+
+
+

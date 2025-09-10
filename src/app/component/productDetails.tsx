@@ -85,10 +85,11 @@ export default function ProductDetail({ product }: { product: any }) {
             onChange={handleQuantityChange}
         />
         </div>
-
-        <button onClick={handleAddToCart} className="add-to-cart-btn">
+        {!product.data.outOfStock ?( <button onClick={handleAddToCart} className="add-to-cart-btn">
         {inCart ? "Update Cart" : "Add to Cart"}
-        </button>
+        </button>):(<button  className="add-to-cart-btn">Out of Stock</button>)}
+
+       
       </div>
       {showNotif && (
         <Notification

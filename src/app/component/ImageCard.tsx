@@ -12,6 +12,7 @@ export interface IProduct {
   image_url: string;
   price: number;
   maxQuantity: number;
+  outOfStock:boolean
 }
 
 interface ProductProps {
@@ -54,12 +55,17 @@ const ImageCard: React.FC<ProductProps> = ({ products }) => {
             <div className="product-info">
               <h3 className="product-title">{product.name}</h3>
               <p className="product-price">Price: ₦{product.price}</p>
-              <button
+              {!product.outOfStock?(  <button
                 className="cart-btn"
                 onClick={() => handleAddToCart(product)}
               >
                 Add to cart
-              </button>
+              </button>):   <button
+                className="cart-btn"
+              >
+                Out Of Stock
+              </button>}
+            
             </div>
           </div>
         ))}

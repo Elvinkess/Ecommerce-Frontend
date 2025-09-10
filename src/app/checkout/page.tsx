@@ -39,7 +39,7 @@ export default function CheckoutPage() {
   const [order, setOrder] = useState<Order | null>(null);
   const [address, setAddress] = useState<Address | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
-  const [paymentRes, setPaymentRes] = useState<PaymentRes | null>(null); // 👈 new
+  const [paymentRes, setPaymentRes] = useState<PaymentRes | null>(null);
   const [formAddress, setFormAddress] = useState<Address>({
     name: user?.username || "",
     email: user?.email || "",
@@ -174,7 +174,7 @@ export default function CheckoutPage() {
 
         {/* Order Section */}
         <div className="order-details">
-          <h2>Your Order</h2>
+          <h2 className="order-h2">Your Order</h2>
           <div className="product-details">
             {order ? (
               <div>
@@ -196,7 +196,7 @@ export default function CheckoutPage() {
           <button
             onClick={handleCheckout}
             disabled={!address}
-            className={`px-4 py-2 rounded ${
+            className={`btn-payment ${
               address
                 ? "bg-green-600 text-white"
                 : "bg-gray-400 text-gray-700 cursor-not-allowed"
@@ -210,24 +210,23 @@ export default function CheckoutPage() {
       {/* Payment Popup */}
       {paymentRes && (
         <div className="payment-screen">
-          <div className="bg-white rounded-lg p-6 shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-bold mb-4">Confirm Payment</h2>
+          <div >
+            <h2 >Confirm Payment</h2>
             <p>Total Price: ₦{paymentRes.amount}</p>
             <p>Delivery Fee: ₦{paymentRes.deliveryamount}</p>
-            <p className="mt-2 font-semibold">
+            <p >
               Grand Total: ₦{paymentRes.amount + paymentRes.deliveryamount}
             </p>
 
-            <div className="flex justify-end mt-6 gap-4">
+            <div >
               <button
                 onClick={() => setPaymentRes(null)}
-                className="px-4 py-2 rounded bg-gray-300"
               >
                 Cancel
               </button>
-              <button
+              <button className="proceed-btn"
                 onClick={() => (window.location.href = paymentRes.redirectUrl)}
-                className="px-4 py-2 rounded bg-green-600 text-white"
+                
               >
                 Proceed
               </button>
