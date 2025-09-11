@@ -455,3 +455,35 @@
     background: #f9fafb;
   }
   
+  /* Hide nav links on small screens by default */
+.nav-links {
+    gap: 1.5rem;
+  }
+  
+  .hamburger {
+    display: block;
+    cursor: pointer;
+  }
+  
+  /* On medium screens and up, always show nav links */
+  @media (min-width: 768px) {
+    .hamburger {
+      display: none;
+    }
+    .nav-links {
+      flex-direction: row !important;
+      position: static !important;
+      width: auto !important;
+      background: transparent !important;
+      display: flex !important;
+    }
+  }
+  
+  /* Hamburger menu background on small screens */
+  .nav-links.flex-col {
+    padding: 1rem;
+    border-top: 1px solid #eee;
+    background: white;
+    z-index: 50;
+  }
+  

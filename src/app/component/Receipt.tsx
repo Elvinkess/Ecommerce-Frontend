@@ -47,7 +47,7 @@ export default function Receipt({ data }: { data: PaymentResponse }) {
   return (
     <div className="receipt-container">
       <div className="receipt-card">
-      <h1 className="receipt-title">SHOPPER</h1>
+      <h1 className="receipt-title">Thanks for shopping </h1>
         <h1 className="receipt-title">Payment Confirmation</h1>
         <ul className="receipt-list">
           <li><span>Status:</span> <strong>{data.status}</strong></li>
