@@ -16,9 +16,9 @@ export default function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/product/`);
-        const data = await res.json();
-        setProducts(data);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/product/paginate?page=1&limit=6`);
+        const {products} = await res.json();
+        setProducts(products);
       } catch (err) {
         console.error("Failed to fetch products", err);
       } finally {

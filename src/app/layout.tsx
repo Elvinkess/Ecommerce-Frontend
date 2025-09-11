@@ -5,6 +5,7 @@ import './styles/header.css'
 import Header from "./component/Header";
 import CartProvider from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
+import Footer from "./component/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({
         <CartProvider>
           <Header></Header>
           <div className="main-content-wrapper">{children}</div>
+          <Footer></Footer>
         </CartProvider>
       </AuthProvider>
       

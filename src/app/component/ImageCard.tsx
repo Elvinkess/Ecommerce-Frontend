@@ -55,16 +55,14 @@ const ImageCard: React.FC<ProductProps> = ({ products }) => {
             <div className="product-info">
               <h3 className="product-title">{product.name}</h3>
               <p className="product-price">Price: ₦{product.price}</p>
-              {!product.outOfStock?(  <button
+              <button
                 className="cart-btn"
                 onClick={() => handleAddToCart(product)}
+                disabled={product.outOfStock} // disable when true
               >
-                Add to cart
-              </button>):   <button
-                className="cart-btn"
-              >
-                Out Of Stock
-              </button>}
+              {product.outOfStock ? "Out Of Stock" : "Add to cart"}
+            </button>
+
             
             </div>
           </div>

@@ -18,8 +18,8 @@ export default function Product({ products }: ProductProps) {
       {products.map((product) => (
         <Link
           key={product.id}
-          href={`/product/${product.id}`} // ✅ dynamic route
-          className="product-card"
+          href={`/product/${product.id}`} 
+          className="product-cards"
         >
           <img
             src={product.image_url}

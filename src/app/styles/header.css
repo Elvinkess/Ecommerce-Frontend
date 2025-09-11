@@ -425,3 +425,33 @@
     display: block;
   }
   
+  .search-bar {
+    background: #f3f4f6;
+    border-radius: 6px;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .search-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 0.4rem 0.6rem;
+    width: 200px;
+    font-size: 0.9rem;
+  }
+  
+  .search-results {
+    max-height: 250px;
+    overflow-y: auto;
+  }
+  
+  .search-result-item {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    cursor: pointer;
+  }
+  
+  .search-result-item:hover {
+    background: #f9fafb;
+  }
+  

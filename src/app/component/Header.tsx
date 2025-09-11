@@ -1,21 +1,52 @@
-"use client";
-
+"use client"
 import { useState } from "react";
 import Link from "next/link";
 import { useCart } from "../context/CartContext";
-import{useAuth} from "../context/AuthContext"
-import { ShoppingCart, Info, User, LayoutGrid, Package,ClipboardList, X } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import { ShoppingCart, User, LayoutGrid, Package, ClipboardList, X } from "lucide-react";
 import OrderListDrawer from "./Order";
 import Image from "next/image";
+import { useRouter } from "next/navigation"; 
 
 export default function Header() {
   const { cart, removeFromCart, clearCart, updateQuantity } = useCart();
   const [open, setOpen] = useState(false);
-  const [openOrders, setOpenOrders] = useState(false)
+  const [openOrders, setOpenOrders] = useState(false);
+  const { user } = useAuth();
 
-  const{user}= useAuth()
+  const [query, setQuery] = useState("");
+  const [searching, setSearching] = useState(false);
+  const router = useRouter();
 
-  // Helper for safe quantity updates
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+
+    setSearching(true);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/product/search`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productName: query }),
+      });
+
+      if (!res.ok) throw new Error("Search failed");
+      const data = await res.json();
+
+      if (Array.isArray(data) && data.length > 0) {
+        router.push(`/search-results?query=${encodeURIComponent(query)}`);
+      } else {
+        alert("No products found");
+      }
+    } catch (error) {
+      console.error("Search failed", error);
+    } finally {
+      setSearching(false);
+    }
+  };
+
   const handleQuantityChange = (itemId: number, quantity: number, max: number) => {
     if (quantity < 1) return updateQuantity(itemId, 1);
     if (quantity > max) return updateQuantity(itemId, max);
@@ -38,9 +69,17 @@ export default function Header() {
           <Link href="/product" title="Product">
             <Package size={22} />
           </Link>
-          <Link href="/about" title="About">
-            <Info size={22} />
-          </Link>
+
+          {/* 🔎 Search Input */}
+          <form onSubmit={handleSearch} className="search-bar">
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search products..."
+              className="search-input"
+            />
+          </form>
 
           {user && user.id && user.username && (
             <nav className="space-x-4">
@@ -48,16 +87,13 @@ export default function Header() {
                 <ClipboardList size={24} />
               </button>
             </nav>
-      )}
+          )}
 
           {/* Orders Drawer */}
           <OrderListDrawer open={openOrders} onClose={() => setOpenOrders(false)} />
 
-          {/* Cart Icon with badge (toggles drawer) */}
-          <button
-            onClick={() => setOpen(true)}
-            className="relative cart-icon"
-          >
+          {/* Cart Icon */}
+          <button onClick={() => setOpen(true)} className="relative cart-icon">
             <ShoppingCart size={24} />
             <span className="cart-icon-count">
               {cart.reduce((sum, item) => sum + item.quantity, 0)}
@@ -70,13 +106,17 @@ export default function Header() {
         </div>
       </div>
 
+     
+
       {/* Cart Drawer */}
       {open && (
-        <div className="cart-memu-container"onClick={() => setOpen(false)} >
-          <div className="cart-memu"onClick={(e) => e.stopPropagation()}>
+        <div className="cart-memu-container" onClick={() => setOpen(false)}>
+          <div className="cart-memu" onClick={(e) => e.stopPropagation()}>
             {/* Header */}
             <div className="cart-header">
-              <button onClick={clearCart} className="item-clear">Clear cart</button>
+              <button onClick={clearCart} className="item-clear">
+                Clear cart
+              </button>
               {user && user.username ? (
                 <h2 className="text-lg font-bold">{user.username}'s cart</h2>
               ) : (
@@ -95,7 +135,6 @@ export default function Header() {
                 <ul className="cart-items-list">
                   {cart.map((item) => (
                     <li key={item.id} className="cart-item">
-                    
                       <div className="cart-item-image">
                         <Image
                           src={item.image_url}
@@ -105,7 +144,6 @@ export default function Header() {
                           className="cart-item-img"
                         />
                       </div>
-
 
                       {/* Item Details */}
                       <div className="cart-item-details-wrapper">
@@ -167,10 +205,7 @@ export default function Header() {
             {/* Footer */}
             {cart.length > 0 && (
               <div className="cart-footer-buttons">
-                <button
-                  onClick={() => setOpen(false)}
-                  className="cart-close-button"
-                >
+                <button onClick={() => setOpen(false)} className="cart-close-button">
                   Continue Shopping
                 </button>
                 <Link href="/checkout" className="cart-check-out">

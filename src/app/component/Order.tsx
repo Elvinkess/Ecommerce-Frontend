@@ -60,9 +60,9 @@ export default function OrderListDrawer({ open, onClose }: OrderListDrawerProps)
         {/* Header */}
         <div className="order-header">
           {user?.username ? (
-            <h2 className="text-lg font-bold">{user.username}'s Orders</h2>
+            <h2 className="order-user">{user.username}'s Orders</h2>
           ) : (
-            <h2 className="text-lg font-bold">Your Orders</h2>
+            <h2 >Your Orders</h2>
           )}
           <button onClick={onClose} className="order-header-close-btn">
             <X size={20} />

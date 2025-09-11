@@ -8,7 +8,7 @@
   }
   
   /* Individual product card */
-  .product-card {
+  .product-cards {
     background-color: #ffffff;
     border-radius: 12px;
     overflow: hidden;
@@ -20,7 +20,7 @@
     text-decoration: none;
   }
   
-  .product-card:hover {
+  .product-cards:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   }
@@ -34,7 +34,7 @@
   }
   
   /* Product title */
-  .product-card h2 {
+  .product-cards h2 {
     font-size: 1.1rem;
     font-weight: 600;
     color: #333;
@@ -43,7 +43,7 @@
   }
   
   /* Product price */
-  .product-card p {
+  .product-cards p {
     font-size: 1rem;
     font-weight: 500;
     color: #4f46e5; 

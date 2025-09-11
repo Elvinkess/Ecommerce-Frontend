@@ -146,6 +146,12 @@
   .cart-btn:active {
     transform: translateY(0);
   }
+  .cart-btn:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  
   
 
 /* Styling for the product title */

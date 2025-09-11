@@ -1,33 +1,32 @@
 .main-content-wrapper {
-  max-width: 1200px; /* Same max-width as your .header .container */
-  margin: 0 auto;    /* Centers the content horizontally */
-  padding: 0 1.5rem; /* Optional: Add horizontal padding to match the header's inner padding */
-  /* You might want to add vertical padding as well, e.g., padding-top: 2rem; */
+  max-width: 1200px; 
+  margin: 0 auto;    
+  padding: 0 1.5rem; 
 }
 
 /* Container for the spinner, ensures it covers the whole screen */
 .spinner {
-  position: fixed; /* Fixed position relative to the viewport */
+  position: fixed; 
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white overlay */
+  background-color: rgba(255, 255, 255, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Ensure it's on top of all other content */
+  z-index: 9999; 
   font-family: 'Inter', sans-serif;
 }
 
 /* Styling for the loader animation itself */
 .loader {
-  width: 50px; /* Size of the spinner */
+  width: 50px; 
   height: 50px;
-  border: 5px solid #e0e0e0; /* Light gray border for the track */
-  border-top-color: #4f46e5; /* Fashion-forward accent color (indigo) for the spinning part */
-  border-radius: 50%; /* Make it circular */
-  animation: spin 1s linear infinite; /* Apply the spinning animation */
+  border: 5px solid #e0e0e0;
+  border-top-color: #4f46e5; 
+  border-radius: 50%; 
+  animation: spin 1s linear infinite; 
 }
 
 /* The spinning animation keyframes */
@@ -40,9 +39,39 @@
   }
 }
 
-/* globals.css */
 .swiper,
 .swiper-slide {
   width: 100%;
-  height: 100vh; /* fill the viewport */
+  height: 100vh; 
+}
+.load-more-btn {
+  background-color: #2563eb; 
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.load-more-btn:hover {
+  background-color: #1d4ed8; 
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.load-more-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.load-more-btn.loading {
+  background-color: #9ca3af; 
+  
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
