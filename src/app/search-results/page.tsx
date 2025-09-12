@@ -44,11 +44,11 @@ export default function SearchResultsPage() {
 
   if (loading) return <p className="p-4">Loading results...</p>;
 
-  if (products.length === 0) return <p className="p-4">No products found for "{query}"</p>;
+  if (products.length === 0) return <p className="p-4">No products found for &quot;{query}&quot;</p>;
 
   return (
     <div className="search-result">
-      <h1 >Search Results for "{query}"</h1>
+      <h1 >Search Results for &quot;{query}&quot;</h1>
 
       <div className="search-products">
         {products.map((product) => (

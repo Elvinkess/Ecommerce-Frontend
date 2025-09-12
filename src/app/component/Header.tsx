@@ -118,7 +118,7 @@ export default function Header() {
                 Clear cart
               </button>
               {user && user.username ? (
-                <h2 className="text-lg font-bold">{user.username}'s cart</h2>
+                <h2 className="text-lg font-bold">{user.username}&apos;s cart</h2>
               ) : (
                 <h2 className="text-lg font-bold">Your Cart</h2>
               )}

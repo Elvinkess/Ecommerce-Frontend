@@ -60,7 +60,7 @@ export default function OrderListDrawer({ open, onClose }: OrderListDrawerProps)
         {/* Header */}
         <div className="order-header">
           {user?.username ? (
-            <h2 className="order-user">{user.username}'s Orders</h2>
+            <h2 className="order-user">{user.username}&apos;s Orders</h2>
           ) : (
             <h2 >Your Orders</h2>
           )}
