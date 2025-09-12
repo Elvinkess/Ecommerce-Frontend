@@ -4,7 +4,22 @@ import { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import Notification from "../component/NotifyCart"
 
-export default function ProductDetail({ product }: { product: any }) {
+interface Product {
+  data: {
+    id: number;
+    name: string;
+    price: number;
+    description: string;
+    image_url: string;
+    outOfStock: boolean;
+    inventory: {
+      quantity_available: number;
+    };
+  };
+}
+
+
+export default function ProductDetail({ product }: { product:Product  }) {
   const { cart, addToCart, updateQuantity } = useCart();
   const [quantity, setQuantity] = useState<number>(1);
   const [showNotif, setShowNotif] = useState(false);

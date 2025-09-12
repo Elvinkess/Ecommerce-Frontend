@@ -2,15 +2,14 @@
 
 import "./styles/homepage.css";
 import Link from "next/link";
-import ImageCard from "./component/ImageCard";
+import ImageCard, { IProduct, ProductProps } from "./component/ImageCard";
 import { useAuth } from "./context/AuthContext";
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const { user } = useAuth();
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<IProduct[]>( [] );
   const [loading, setLoading] = useState(true);
-  const [showNotif, setShowNotif] = useState(false);
 
 
   useEffect(() => {

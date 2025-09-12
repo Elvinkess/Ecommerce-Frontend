@@ -15,7 +15,7 @@ export interface IProduct {
   outOfStock:boolean
 }
 
-interface ProductProps {
+export interface ProductProps {
   products: IProduct[];
 }
 

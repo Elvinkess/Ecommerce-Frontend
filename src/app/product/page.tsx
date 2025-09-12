@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import Product from "../component/Product";
+import { IProduct, ProductProps } from "../component/ImageCard";
+
 
 export default function Products() {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);

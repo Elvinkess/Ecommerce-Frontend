@@ -12,6 +12,18 @@ export interface CartItem {
   image_url:string;
   maxQuantity:number
 }
+interface IProduct{
+  name:string
+  price:number
+  image_url:string
+  inventory:{quantity_available:number}
+
+}
+interface BackendCartRes{
+  product_id:number
+  quantity:number
+  product:IProduct
+}
 
 interface CartContextType {
   cart: CartItem[];
@@ -42,8 +54,8 @@ export default function CartProvider({ children }: { children: ReactNode }) {
           // Normalize backend response into CartItem[]
           const cartItems: CartItem[] = backendCart.cart_items?.length
             ? backendCart.cart_items
-                .filter((ci: any) => ci.product) // ✅ only process valid products
-                .map((ci: any) => ({
+                .filter((ci: BackendCartRes) => ci.product) // ✅ only process valid products
+                .map((ci: BackendCartRes) => ({
                   id: ci.product_id,
                   name: ci.product.name,
                   price: ci.product.price,
