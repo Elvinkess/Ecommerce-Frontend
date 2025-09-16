@@ -51,7 +51,7 @@ export default function Receipt({ data }: { data: PaymentResponse }) {
         <h1 className="receipt-title">Payment Confirmation</h1>
         <ul className="receipt-list">
           <li><span>Status:</span> <strong>{data.status}</strong></li>
-          <li><span>Amount:</span> <strong>₦ {data.amount}</strong></li>
+          <li><span>Amount:</span> <strong>₦ {data.amount.toLocaleString()}</strong></li>
           <li><span>Delivery Fee:</span> ₦ {data.deliveryamount}</li>
           <li><span>Order ID:</span> {data.orderId}</li>
           <li><span>Email:</span> {data.userEmail}</li>

@@ -81,7 +81,7 @@ export default function ProductDetail({ product }: { product:Product  }) {
 
         <p>{product.data.description}</p>
         <p>
-        Price: <strong>₦ {product.data.price}</strong>
+        Price: <strong>₦ {product.data.price.toLocaleString()}</strong>
         </p>
         <p>
         Available:{" "}

@@ -27,7 +27,7 @@ export default function Product({ products }: ProductProps) {
             className="product-img"
           />
           <h2>{product.name}</h2>
-          <p>₦{product.price.toFixed(2)}</p>
+          <p>₦{product.price.toLocaleString()}</p>
         </Link>
       ))}
     </div>

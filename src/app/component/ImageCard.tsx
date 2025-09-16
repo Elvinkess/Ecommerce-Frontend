@@ -54,7 +54,7 @@ const ImageCard: React.FC<ProductProps> = ({ products }) => {
   
             <div className="product-info">
               <h3 className="product-title">{product.name}</h3>
-              <p className="product-price">Price: ₦{product.price}</p>
+              <p className="product-price">Price: ₦{product.price.toLocaleString()}</p>
               <button
                 className="cart-btn"
                 onClick={() => handleAddToCart(product)}

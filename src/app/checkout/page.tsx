@@ -10,7 +10,8 @@ type Address = {
   email: string;
   phone: string;
   address: string;
-  user_id: string;
+  user_id: number | null;
+  guest_id: string | null;
 };
 
 type PaymentRes = {
@@ -35,33 +36,79 @@ type Order = {
 };
 
 export default function CheckoutPage() {
-  const { user } = useAuth();
+  const { user, guestId } = useAuth();
   const [order, setOrder] = useState<Order | null>(null);
   const [address, setAddress] = useState<Address | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
   const [paymentRes, setPaymentRes] = useState<PaymentRes | null>(null);
+  const [errors, setErrors] = useState<Partial<Record<keyof Address, string>>>({});
+  const [addressSaved, setAddressSaved] = useState(false);
+
+
+
+const validateForm = (): boolean => {
+  const newErrors: Partial<Record<keyof Address, string>> = {};
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^[0-9]{10,15}$/;
+  const nameRegex = /^[a-zA-Z\s]{2,}$/;
+
+  if (!formAddress.name.trim()) {
+    newErrors.name = "Name is required.";
+  } else if (!nameRegex.test(formAddress.name.trim())) {
+    newErrors.name = "Name must be letters only, at least 2 characters.";
+  }
+
+  if (!formAddress.email.trim()) {
+    newErrors.email = "Email is required.";
+  } else if (!emailRegex.test(formAddress.email.trim())) {
+    newErrors.email = "Invalid email format.";
+  }
+
+  if (!formAddress.phone.trim()) {
+    newErrors.phone = "Phone number is required.";
+  } else if (!phoneRegex.test(formAddress.phone.trim())) {
+    newErrors.phone = "Phone must be digits only (10–15 characters).";
+  }
+
+  if (!formAddress.address.trim()) {
+    newErrors.address = "Address is required.";
+  } else if (formAddress.address.trim().length < 10) {
+    newErrors.address = "Address must be at least 10 characters long.";
+  }
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0; // ✅ no errors
+};
+
+
   const [formAddress, setFormAddress] = useState<Address>({
     name: user?.username || "",
     email: user?.email || "",
     phone: "",
     address: "",
-    user_id: user?.id || "",
+    user_id: user ? Number(user.id) : null,
+    guest_id: guestId || null,
   });
 
+  //  Fetch address + order for both user and guest
   useEffect(() => {
     const fetchAddress = async () => {
-      if (!user?.id) return;
       try {
-        setUserId(user.id);
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/address?userId=${user.id}`
-        );
-        if (res.ok) {
-          const data = await res.json();
-          if (data) {
-            setAddress(data);
-            setFormAddress(data);
+        if (user?.id) {
+          // logged in user
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/address?userId=${user.id}`
+          );
+          if (res.ok) {
+            const data = await res.json();
+            if (data) {
+              setAddress(data);
+              setFormAddress(data);
+            }
           }
+        } else if (guestId) {
+          // guest - nothing to fetch from backend unless you implement guest address fetch
+          setAddress(null);
         }
       } catch (err) {
         console.error("Failed to fetch address:", err);
@@ -69,11 +116,19 @@ export default function CheckoutPage() {
     };
 
     const getOrder = async () => {
-      if (!user?.id) return;
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/order/order/${user.id}`
-        );
+        let url;
+        if (user?.id) {
+          // /order/:userId (create or fetch order for user)
+          url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/order/${user.id}`;
+        } else if (guestId) {
+          // /order?guestId=xxx (create or fetch order for guest)
+          url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/order?guestId=${guestId}`;
+        } else {
+          return;
+        }
+
+        const res = await fetch(url, { method: "POST" }); // POST to create/get order
         if (res.ok) {
           const data = await res.json();
           if (data) {
@@ -87,17 +142,54 @@ export default function CheckoutPage() {
 
     fetchAddress();
     getOrder();
-  }, [userId]);
+  }, [user?.id, guestId]);
 
+  // Save or update address
+  const handleSaveAddress = async () => {
+    if (!validateForm()) return;
+  
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/address`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formAddress),
+        }
+      );
+  
+      if (!res.ok) throw new Error("Failed to save address");
+  
+      const data = await res.json();
+      setAddress(data);
+      setAddressSaved(true);
+      setErrors({}); // clear errors
+      alert("Address saved successfully!");
+    } catch (err) {
+      console.error("Error saving address:", err);
+      alert("Something went wrong while saving address.");
+    }
+  };
+
+  //  Proceed to payment
   const handleCheckout = async () => {
-    if (!address) {
+    if (!order) {
+      alert("No order found!");
+      return;
+    }
+    if (!address?.id) {
       alert("You must add an address before checkout");
       return;
     }
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/order/payment/${order?.id}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/order/pay/${order.id}/payment`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: formAddress.email }),
+        }
       );
 
       if (!res.ok) {
@@ -105,9 +197,6 @@ export default function CheckoutPage() {
       }
 
       const data: PaymentRes = await res.json();
-      console.log("Payment response:", data);
-
-      // instead of redirect, save in state
       setPaymentRes(data);
     } catch (err) {
       console.error("Checkout error:", err);
@@ -125,7 +214,7 @@ export default function CheckoutPage() {
             {address ? "Update Address" : "Add Address"}
           </h2>
 
-          <input
+            <input
             type="text"
             placeholder="Full Name"
             className="checkout-form"
@@ -134,6 +223,8 @@ export default function CheckoutPage() {
               setFormAddress({ ...formAddress, name: e.target.value })
             }
           />
+          {errors.name && <p className="error-text">{errors.name}</p>}
+
           <input
             type="email"
             placeholder="Email"
@@ -143,6 +234,8 @@ export default function CheckoutPage() {
               setFormAddress({ ...formAddress, email: e.target.value })
             }
           />
+          {errors.email && <p className="error-text">{errors.email}</p>}
+
           <input
             type="tel"
             placeholder="Phone"
@@ -152,24 +245,22 @@ export default function CheckoutPage() {
               setFormAddress({ ...formAddress, phone: e.target.value })
             }
           />
+          {errors.phone && <p className="error-text">{errors.phone}</p>}
+
           <textarea
-            placeholder="Delivery Address"
+            placeholder="2 Ijaiye Road, Ogba, Ikeja, Lagos State, Nigeria"
             className="checkout-form"
             value={formAddress.address}
             onChange={(e) =>
               setFormAddress({ ...formAddress, address: e.target.value })
             }
           />
+          {errors.address && <p className="error-text">{errors.address}</p>}
 
-          {address ? (
-            <button onClick={handleCheckout} className="address-btn">
-              Update Address
-            </button>
-          ) : (
-            <button onClick={handleCheckout} className="address-btn">
-              Save Address
-            </button>
-          )}
+
+          <button onClick={handleSaveAddress} className="address-btn">
+            {address ? "Update Address" : "Save Address"}
+          </button>
         </div>
 
         {/* Order Section */}
@@ -178,12 +269,12 @@ export default function CheckoutPage() {
           <div className="product-details">
             {order ? (
               <div>
-                <p>Sum Total: ₦{order.total_price}</p>
+                <p>Sum Total: ₦{order.total_price.toLocaleString()}</p>
                 <h3>Items:</h3>
                 <ul>
                   {order.Order_items?.map((item, idx) => (
                     <li key={idx}>
-                      {item.product_name} x{item.quantity} - ₦{item.price}
+                      {item.product_name} x{item.quantity} - ₦{item.price.toLocaleString()}
                     </li>
                   ))}
                 </ul>
@@ -210,23 +301,19 @@ export default function CheckoutPage() {
       {/* Payment Popup */}
       {paymentRes && (
         <div className="payment-screen">
-          <div >
-            <h2 >Confirm Payment</h2>
-            <p>Total Price: ₦{paymentRes.amount}</p>
-            <p>Delivery Fee: ₦{paymentRes.deliveryamount}</p>
-            <p >
-              Grand Total: ₦{paymentRes.amount + paymentRes.deliveryamount}
+          <div>
+            <h2>Confirm Payment</h2>
+            <p>Total Price: ₦{paymentRes.amount.toLocaleString()}</p>
+            <p>Delivery Fee: ₦{paymentRes.deliveryamount.toLocaleString()}</p>
+            <p>
+              Grand Total: ₦{(paymentRes.amount + paymentRes.deliveryamount).toLocaleString()}
             </p>
 
-            <div >
+            <div>
+              <button onClick={() => setPaymentRes(null)}>Cancel</button>
               <button
-                onClick={() => setPaymentRes(null)}
-              >
-                Cancel
-              </button>
-              <button className="proceed-btn"
+                className="proceed-btn"
                 onClick={() => (window.location.href = paymentRes.redirectUrl)}
-                
               >
                 Proceed
               </button>

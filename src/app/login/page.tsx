@@ -10,7 +10,7 @@ import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
     const router = useRouter();
-    const { setUser } = useAuth();
+    const { setUser,mergeCart } = useAuth();
 
 
     // State to hold the form data
@@ -56,6 +56,7 @@ const LoginPage = () => {
             const result = await response.json();
             setUser(result.user)
             console.log("Sign-in successful:", result.user);
+            await mergeCart();
 
             //  Redirect to home page
             router.push("/");
